@@ -3,6 +3,18 @@ Name=P18F87K22
 Clock=64000000
 [BUILD_TYPE]
 Value=0
+[MEMORY_MODEL]
+Value=0
+[ACTIVE_TAB]
+Value=Click_GNSS4.pld
+[USE_EEPROM]
+Value=0
+[USE_HEAP]
+Value=0
+[HEAP_SIZE]
+Value=0
+[EEPROM_DEFINITION]
+Value=
 [FILES]
 File0=Click_GNSS4_PIC.c
 Count=1
@@ -22,12 +34,12 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Path0=..\..\..\mikroBUS Board Definition API\Uses\
-Path1=..\..\Uses\
+Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Packages\mikroBUS Board Definition API\Uses\
+Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Packages\GNSS 4 Click\Uses\
 Count=2
 [HEADER_PATH]
-Path0=..\..\..\mikroBUS Board Definition API\Uses\
-Path1=..\..\Uses\
+Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Packages\mikroBUS Board Definition API\Uses\
+Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Packages\GNSS 4 Click\Uses\
 Count=2
 [HEADERS]
 File0=Click_GNSS4_timer.h
@@ -43,18 +55,6 @@ File1=UART
 File2=C_String
 File3=easypicpro_v7_P18F87K22
 Count=4
-[MEMORY_MODEL]
-Value=0
-[ACTIVE_TAB]
-Value=Click_GNSS4_PIC.c
-[USE_EEPROM]
-Value=0
-[USE_HEAP]
-Value=0
-[HEAP_SIZE]
-Value=0
-[EEPROM_DEFINITION]
-Value=
 [EXPANDED_NODES]
 0=Click_GNSS4_PIC.mcppi
 8=Project Level Defines
@@ -69,4 +69,4 @@ Count=2
 898=GNSS 7 Click
 908=6DOF IMU Click
 917=GNSS 4 Click
-Count=9
+Count=10

@@ -1,5 +1,5 @@
-#line 1 "C:/Users/Public/Documents/Mikroelektronika/mikroC PRO for PIC/Packages/GNSS 4 Click/Examples/PIC/Click_GNSS4_PIC.c"
-#line 1 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/gnss 4 click/examples/pic/click_gnss4_types.h"
+#line 1 "D:/Armando/OneDrive/PROJECTS/2024/2024-06-13 - PIC18 GNSS GPS Tracking, Accelerometer and Magnetometer/6. CODE/GNSS 4 Click/Click_GNSS4_PIC.c"
+#line 1 "d:/armando/onedrive/projects/2024/2024-06-13 - pic18 gnss gps tracking, accelerometer and magnetometer/6. code/gnss 4 click/click_gnss4_types.h"
 #line 1 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/include/stdint.h"
 
 
@@ -47,9 +47,9 @@ typedef unsigned long int uintmax_t;
 
 
  typedef char _Bool;
-#line 1 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/gnss 4 click/examples/pic/click_gnss4_config.h"
-#line 1 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/gnss 4 click/examples/pic/click_gnss4_types.h"
-#line 3 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/gnss 4 click/examples/pic/click_gnss4_config.h"
+#line 1 "d:/armando/onedrive/projects/2024/2024-06-13 - pic18 gnss gps tracking, accelerometer and magnetometer/6. code/gnss 4 click/click_gnss4_config.h"
+#line 1 "d:/armando/onedrive/projects/2024/2024-06-13 - pic18 gnss gps tracking, accelerometer and magnetometer/6. code/gnss 4 click/click_gnss4_types.h"
+#line 3 "d:/armando/onedrive/projects/2024/2024-06-13 - pic18 gnss gps tracking, accelerometer and magnetometer/6. code/gnss 4 click/click_gnss4_config.h"
 const uint32_t _GNSS4_TIMER_LIMIT = 5;
 const uint16_t _GNSS4_BUF_WARNING = 192;
 const uint8_t _GNSS4_POLL_ENABLE = 1;
@@ -59,9 +59,9 @@ const uint32_t _GNSS4_UART_CFG[ 1 ] =
 {
  9600
 };
-#line 1 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/gnss 4 click/examples/pic/click_gnss4_timer.h"
-#line 1 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/gnss 4 click/examples/pic/click_gnss4_types.h"
-#line 11 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/gnss 4 click/examples/pic/click_gnss4_timer.h"
+#line 1 "d:/armando/onedrive/projects/2024/2024-06-13 - pic18 gnss gps tracking, accelerometer and magnetometer/6. code/gnss 4 click/click_gnss4_timer.h"
+#line 1 "d:/armando/onedrive/projects/2024/2024-06-13 - pic18 gnss gps tracking, accelerometer and magnetometer/6. code/gnss 4 click/click_gnss4_types.h"
+#line 11 "d:/armando/onedrive/projects/2024/2024-06-13 - pic18 gnss gps tracking, accelerometer and magnetometer/6. code/gnss 4 click/click_gnss4_timer.h"
 uint32_t timerCounter = 0;
 
 static void gnss4_configTimer()
@@ -86,7 +86,7 @@ void Interrupt()
  timerCounter++;
  }
 }
-#line 46 "C:/Users/Public/Documents/Mikroelektronika/mikroC PRO for PIC/Packages/GNSS 4 Click/Examples/PIC/Click_GNSS4_PIC.c"
+#line 46 "D:/Armando/OneDrive/PROJECTS/2024/2024-06-13 - PIC18 GNSS GPS Tracking, Accelerometer and Magnetometer/6. CODE/GNSS 4 Click/Click_GNSS4_PIC.c"
 uint8_t pFlag = 0;
 uint8_t dispFlag = 0;
 char demoBuffer[ 500 ] = {0};
