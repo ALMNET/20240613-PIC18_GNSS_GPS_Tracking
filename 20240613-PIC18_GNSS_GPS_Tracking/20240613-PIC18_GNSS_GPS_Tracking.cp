@@ -1,4 +1,4 @@
-#line 1 "D:/Armando/OneDrive/PROJECTS/2024/2024-06-13 - PIC18 GNSS GPS Tracking, Accelerometer and Magnetometer/6. CODE/20240613-PIC18_GNSS_GPS_Tracking/Click_GNSS4_PIC.c"
+#line 1 "D:/Armando/OneDrive/PROJECTS/2024/2024-06-13 - PIC18 GNSS GPS Tracking, Accelerometer and Magnetometer/6. CODE/20240613-PIC18_GNSS_GPS_Tracking/20240613-PIC18_GNSS_GPS_Tracking.c"
 #line 1 "d:/armando/onedrive/projects/2024/2024-06-13 - pic18 gnss gps tracking, accelerometer and magnetometer/6. code/20240613-pic18_gnss_gps_tracking/click_gnss4_types.h"
 #line 1 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/include/stdint.h"
 
@@ -86,11 +86,23 @@ void Interrupt()
  timerCounter++;
  }
 }
-#line 46 "D:/Armando/OneDrive/PROJECTS/2024/2024-06-13 - PIC18 GNSS GPS Tracking, Accelerometer and Magnetometer/6. CODE/20240613-PIC18_GNSS_GPS_Tracking/Click_GNSS4_PIC.c"
+#line 36 "D:/Armando/OneDrive/PROJECTS/2024/2024-06-13 - PIC18 GNSS GPS Tracking, Accelerometer and Magnetometer/6. CODE/20240613-PIC18_GNSS_GPS_Tracking/20240613-PIC18_GNSS_GPS_Tracking.c"
 uint8_t pFlag = 0;
 uint8_t dispFlag = 0;
+
+
 char demoBuffer[ 500 ] = {0};
+
+
 char demoCommand[ 16 ] = "$GNGGA";
+
+
+char *pLat;
+char *pLong;
+char *pAlt;
+char rspCom[ 50 ] = {0};
+
+
 
 void gnss4_default_handler( uint8_t *rsp, uint8_t *evArgs )
 {
@@ -132,11 +144,25 @@ void applicationInit()
 
 void applicationTask()
 {
- char *pLat;
- char *pLong;
- char *pAlt;
- char rspCom[ 50 ] = {0};
 
+
+
+}
+
+
+
+void main()
+{
+ systemInit();
+ applicationInit();
+
+
+
+
+
+
+ while (1)
+ {
 
  gnss4_process();
 
@@ -208,15 +234,5 @@ void applicationTask()
  dispFlag = 0;
  mikrobus_logWrite( " ---------------------------------------- ", _LOG_LINE);
  }
-}
-
-void main()
-{
- systemInit();
- applicationInit();
-
- while (1)
- {
- applicationTask();
  }
 }

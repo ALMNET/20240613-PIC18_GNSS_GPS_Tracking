@@ -36,37 +36,35 @@ main
 		gnss4_modulePower
 			____DoIFC
 			Delay_100ms
-	applicationTask
-		__CC2DW
-		gnss4_process
-			hal_uartReady
-				____DoIFC
-			hal_uartRead
-				____DoIFC
-			gnss4_putc
+	gnss4_process
+		hal_uartReady
 			____DoIFC
-			createEvent
-				searchLut
-					_strlen
-					Mul_16X16_U
-					_strncmp
-				_strncpy
-				locateHandler
-					_strlen
-					generateHash
-						Div_8X8_U
-					Mul_16X16_U
-				Mul_16X16_U
-		mikrobus_logWrite
-			_log_write
-				____DoIFC
-		gnss4_parser
-			_strstr
+		hal_uartRead
+			____DoIFC
+		gnss4_putc
+		____DoIFC
+		createEvent
+			searchLut
 				_strlen
+				Mul_16X16_U
 				_strncmp
-				_strchr
-			_strchr
 			_strncpy
-		strcpy
+			locateHandler
+				_strlen
+				generateHash
+					Div_8X8_U
+				Mul_16X16_U
+			Mul_16X16_U
+	mikrobus_logWrite
+		_log_write
+			____DoIFC
+	gnss4_parser
+		_strstr
+			_strlen
+			_strncmp
+			_strchr
+		_strchr
+		_strncpy
+	strcpy
 Interrupt
 	gnss4_tick

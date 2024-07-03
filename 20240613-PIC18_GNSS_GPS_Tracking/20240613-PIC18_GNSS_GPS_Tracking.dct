@@ -1681,6 +1681,7 @@ p3rsen_bit
 pa3
 pa3_bit
 padcfg1
+palt
 pb1
 pb1_bit
 pb3
@@ -1735,8 +1736,10 @@ pir3
 pir4
 pir5
 pir6
+plat
 pllen
 pllen_bit
+plong
 plusw0
 plusw1
 plusw2
@@ -2086,6 +2089,7 @@ rosslp_bit
 rsen
 rsen_bit
 rsen_ssp1con2_bit
+rspcom
 rtcc
 rtcc_bit
 rtccal

@@ -6,7 +6,7 @@ Value=0
 [MEMORY_MODEL]
 Value=0
 [ACTIVE_TAB]
-Value=Click_GNSS4.pld
+Value=20240613-PIC18_GNSS_GPS_Tracking.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -16,7 +16,7 @@ Value=0
 [EEPROM_DEFINITION]
 Value=
 [FILES]
-File0=Click_GNSS4_PIC.c
+File0=20240613-PIC18_GNSS_GPS_Tracking.c
 Count=1
 [BINARIES]
 Count=0
@@ -24,7 +24,7 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-File0=Click_GNSS4_PIC.c
+File0=20240613-PIC18_GNSS_GPS_Tracking.c
 File1=Click_GNSS4.pld
 Count=2
 [EEPROM]
@@ -56,9 +56,10 @@ File2=C_String
 File3=easypicpro_v7_P18F87K22
 Count=4
 [EXPANDED_NODES]
-0=Click_GNSS4_PIC.mcppi
+0=20240613-PIC18_GNSS_GPS_Tracking.mcppi
+1=Sources
 8=Project Level Defines
-Count=2
+Count=3
 [LIB_EXPANDED_NODES]
 0=mikroE Libraries
 1=System Libraries

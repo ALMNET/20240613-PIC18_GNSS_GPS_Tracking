@@ -1,31 +1,4 @@
 /*
-Example for GNSS4 Click
-
-    Date          : jan 2019.
-    Author        : Katarina Perendic
-
-Test configuration PIC :
-    
-    MCU             : P18F87K22
-    Dev. Board      : EasyPIC PRO v7
-    PIC Compiler ver : v7.2.0.0
-
----
-
-Description :
-
-The application is composed of three sections :
-
-- System Initialization - Initializes all necessary GPIO pins, UART used for
-the communcation with GPS module and UART used for infromation logging
-- Application Initialization - Initializes driver, power on module
-- Application Task - running in parallel core state machine.
-If response detected parser will hang information of Latitude, Longitude and Altitude .
-
-Additional Functions :
-
-All additional functions such as timer initialization and default handler. 
-
 Notes :
 
 - The GPS module returns data in the form of NMEA responses
@@ -34,7 +7,8 @@ Notes :
 - $GPGGA,123519,4807.038,N,01131.000,E,1,08,0.9,545.4,M,46.9,M,,*47
 
 For parsing, use the GPS Parser function to send the following form of arguments:
-The name of the NMEA response that you want to parse, the position of the data that you need.
+The name of the NMEA response that you want to parse, the position of the data 
+that you need.
 As a response - you will get a separate buffer with the requested data
 
 */
@@ -43,10 +17,27 @@ As a response - you will get a separate buffer with the requested data
 #include "Click_GNSS4_config.h"
 #include "Click_GNSS4_timer.h"
 
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////////// GLOBAL VARIABLES /////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+// Timing Flags
 uint8_t pFlag = 0;
 uint8_t dispFlag = 0;
+
+// Buffer
 char demoBuffer[ 500 ] = {0};
+
+// Basic default AT Command
 char demoCommand[ 16 ] = "$GNGGA";
+
+
+char *pLat;
+char *pLong;
+char *pAlt;
+char rspCom[ 50 ] = {0};
+
+
 
 void gnss4_default_handler( uint8_t *rsp, uint8_t *evArgs )
 {
@@ -61,43 +52,39 @@ void gnss4_default_handler( uint8_t *rsp, uint8_t *evArgs )
     }
 }
 
-void systemInit()
+
+void main()
 {
+    // Mikrobus Init
     mikrobus_gpioInit( _MIKROBUS1, _MIKROBUS_RST_PIN, _GPIO_OUTPUT );
     mikrobus_uartInit( _MIKROBUS1, &_GNSS4_UART_CFG[0] );
     mikrobus_logInit( _MIKROBUS3, 9600 );
     mikrobus_logWrite( " ---- System Init ---- ", _LOG_LINE);
-}
 
-void applicationInit()
-{
-// TIMER INIT
+    // TIMER INIT
     gnss4_configTimer();
 
-// DRIVER INIT
+    // DRIVER INIT
     gnss4_uartDriverInit((T_GNSS4_P)&_MIKROBUS1_GPIO, (T_GNSS4_P)&_MIKROBUS1_UART);
     gnss4_coreInit( gnss4_default_handler, 1500 );
 
-// MODULE POWER ON
+    // MODULE POWER ON
     gnss4_hfcEnable( 1 );
     gnss4_modulePower( 1 );
 
     Delay_ms( 5000 );
     timerCounter = 0;
-}
+  
 
-void applicationTask()
-{
-    char *pLat;
-    char *pLong;
-    char *pAlt;
-    char rspCom[ 50 ] = {0};
-        
-// CORE STATE MACHINE
-    gnss4_process();
-
-    if(timerCounter > 5000)
+    while (1)
     {
+      // CORE STATE MACHINE
+      gnss4_process();
+      
+      // GNSS4 General Delay and Flag conditioner (Could be improved in the
+      // future)
+      if(timerCounter > 5000)
+      {
         pFlag++;
         if(pFlag > 2)
         {
@@ -105,10 +92,11 @@ void applicationTask()
         }
         timerCounter = 0;
         dispFlag = 1;
-    }
+      }
 
-    if(pFlag == 0 && dispFlag == 1)
-    {
+      // Check timming condition for Latitud Read
+      if(pFlag == 0 && dispFlag == 1)
+      {
         mikrobus_logWrite( "  ", _LOG_LINE);
         mikrobus_logWrite( " ---------------------------------------- ", _LOG_LINE);
         pLat = gnss4_parser(&demoBuffer[0], &demoCommand[0], 2);
@@ -125,10 +113,11 @@ void applicationTask()
         }
         dispFlag = 0;
         mikrobus_logWrite( " ---------------------------------------- ", _LOG_LINE);
-    }
+      }
 
-    if(pFlag == 2 &&  dispFlag == 1)
-    {
+      // Check timming condition for Altitude Read
+      if(pFlag == 2 &&  dispFlag == 1)
+      {
         mikrobus_logWrite( "  ", _LOG_LINE);
         mikrobus_logWrite( " ---------------------------------------- ", _LOG_LINE);
         pAlt = gnss4_parser(&demoBuffer[0], &demoCommand[0], 9);
@@ -144,10 +133,11 @@ void applicationTask()
         }
         dispFlag = 0;
         mikrobus_logWrite( " ---------------------------------------- ", _LOG_LINE);
-    }
+      }
 
-    if(pFlag == 1 && dispFlag == 1)
-    {
+      // Check timming condition for Longitude Read
+      if(pFlag == 1 && dispFlag == 1)
+      {
         mikrobus_logWrite( "  ", _LOG_LINE);
         mikrobus_logWrite( " ---------------------------------------- ", _LOG_LINE);
         pLong = gnss4_parser(&demoBuffer[0], &demoCommand[0], 4);
@@ -163,17 +153,7 @@ void applicationTask()
         }
         dispFlag = 0;
         mikrobus_logWrite( " ---------------------------------------- ", _LOG_LINE);
-    }
-}
-
-void main()
-{
-    systemInit();
-    applicationInit();
-
-    while (1)
-    {
-        applicationTask();
+      }
     }
 }
 
