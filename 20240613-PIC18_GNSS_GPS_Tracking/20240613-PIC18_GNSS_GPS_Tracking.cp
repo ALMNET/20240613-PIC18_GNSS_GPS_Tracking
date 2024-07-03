@@ -86,7 +86,16 @@ void Interrupt()
  timerCounter++;
  }
 }
-#line 36 "D:/Armando/OneDrive/PROJECTS/2024/2024-06-13 - PIC18 GNSS GPS Tracking, Accelerometer and Magnetometer/6. CODE/20240613-PIC18_GNSS_GPS_Tracking/20240613-PIC18_GNSS_GPS_Tracking.c"
+#line 1 "d:/armando/onedrive/projects/2024/2024-06-13 - pic18 gnss gps tracking, accelerometer and magnetometer/6. code/20240613-pic18_gnss_gps_tracking/click_6dof_imu_types.h"
+#line 1 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/include/stdint.h"
+#line 1 "d:/armando/onedrive/projects/2024/2024-06-13 - pic18 gnss gps tracking, accelerometer and magnetometer/6. code/20240613-pic18_gnss_gps_tracking/click_6dof_imu_config.h"
+#line 1 "d:/armando/onedrive/projects/2024/2024-06-13 - pic18 gnss gps tracking, accelerometer and magnetometer/6. code/20240613-pic18_gnss_gps_tracking/click_6dof_imu_types.h"
+#line 4 "d:/armando/onedrive/projects/2024/2024-06-13 - pic18 gnss gps tracking, accelerometer and magnetometer/6. code/20240613-pic18_gnss_gps_tracking/click_6dof_imu_config.h"
+const uint32_t _C6DOFIMU_I2C_CFG[ 1 ] =
+{
+ 100000
+};
+#line 28 "D:/Armando/OneDrive/PROJECTS/2024/2024-06-13 - PIC18 GNSS GPS Tracking, Accelerometer and Magnetometer/6. CODE/20240613-PIC18_GNSS_GPS_Tracking/20240613-PIC18_GNSS_GPS_Tracking.c"
 uint8_t pFlag = 0;
 uint8_t dispFlag = 0;
 
@@ -103,6 +112,17 @@ char *pAlt;
 char rspCom[ 50 ] = {0};
 
 
+int16_t accelX;
+int16_t accelY;
+int16_t accelZ;
+int16_t gyroX;
+int16_t gyroY;
+int16_t gyroZ;
+float temperature;
+uint8_t temp[2] = {0};
+char logText[ 15 ] = {0};
+
+
 
 void gnss4_default_handler( uint8_t *rsp, uint8_t *evArgs )
 {
@@ -117,16 +137,22 @@ void gnss4_default_handler( uint8_t *rsp, uint8_t *evArgs )
  }
 }
 
-void systemInit()
+
+void IMU_Task();
+
+
+void main()
 {
+
  mikrobus_gpioInit( _MIKROBUS1, _MIKROBUS_RST_PIN, _GPIO_OUTPUT );
+
+
+
+
  mikrobus_uartInit( _MIKROBUS1, &_GNSS4_UART_CFG[0] );
  mikrobus_logInit( _MIKROBUS3, 9600 );
  mikrobus_logWrite( " ---- System Init ---- ", _LOG_LINE);
-}
 
-void applicationInit()
-{
 
  gnss4_configTimer();
 
@@ -140,31 +166,19 @@ void applicationInit()
 
  Delay_ms( 5000 );
  timerCounter = 0;
-}
 
-void applicationTask()
-{
-
-
-
-}
-
-
-
-void main()
-{
- systemInit();
- applicationInit();
-
-
-
-
+ while(1)
+ {
+ IMU_Task();
+ }
 
 
  while (1)
  {
 
  gnss4_process();
+
+
 
  if(timerCounter > 5000)
  {
@@ -176,6 +190,7 @@ void main()
  timerCounter = 0;
  dispFlag = 1;
  }
+
 
  if(pFlag == 0 && dispFlag == 1)
  {
@@ -197,6 +212,7 @@ void main()
  mikrobus_logWrite( " ---------------------------------------- ", _LOG_LINE);
  }
 
+
  if(pFlag == 2 && dispFlag == 1)
  {
  mikrobus_logWrite( "  ", _LOG_LINE);
@@ -215,6 +231,7 @@ void main()
  dispFlag = 0;
  mikrobus_logWrite( " ---------------------------------------- ", _LOG_LINE);
  }
+
 
  if(pFlag == 1 && dispFlag == 1)
  {
@@ -235,4 +252,55 @@ void main()
  mikrobus_logWrite( " ---------------------------------------- ", _LOG_LINE);
  }
  }
+}
+
+
+
+
+
+void IMU_Task()
+{
+ c6dofimu_readAccel( &accelX, &accelY, &accelZ );
+ Delay_1sec();
+ c6dofimu_readGyro( &gyroX, &gyroY, &gyroZ );
+ Delay_1sec();
+ temperature = c6dofimu_readTemperature();
+ Delay_1sec();
+
+ mikrobus_logWrite( " Accel X :", _LOG_TEXT );
+ IntToStr( accelX, logText );
+ mikrobus_logWrite( logText, _LOG_TEXT );
+ mikrobus_logWrite( "  |  ", _LOG_TEXT );
+ mikrobus_logWrite( " Gyro X :", _LOG_TEXT );
+ IntToStr( gyroX, logText );
+ mikrobus_logWrite( logText, _LOG_TEXT );
+ mikrobus_logWrite( "  *", _LOG_TEXT );
+ mikrobus_logWrite( "*****************", _LOG_LINE );
+
+ mikrobus_logWrite( " Accel Y :", _LOG_TEXT );
+ IntToStr( accelY, logText );
+ mikrobus_logWrite( logText, _LOG_TEXT );
+ mikrobus_logWrite( "  |  ", _LOG_TEXT );
+ mikrobus_logWrite( " Gyro Y :", _LOG_TEXT );
+ IntToStr( gyroY, logText );
+ mikrobus_logWrite( logText, _LOG_TEXT );
+ mikrobus_logWrite( "  *  ", _LOG_TEXT );
+ mikrobus_logWrite( "Temp.:", _LOG_TEXT );
+ IntToStr( temperature, logText );
+ mikrobus_logWrite( logText, _LOG_TEXT );
+ mikrobus_logWrite( "° *  ", _LOG_LINE );
+
+ mikrobus_logWrite( " Accel Z :", _LOG_TEXT );
+ IntToStr( accelZ, logText );
+ mikrobus_logWrite( logText, _LOG_TEXT );
+ mikrobus_logWrite( "  |  ", _LOG_TEXT );
+ mikrobus_logWrite( " Gyro Z :", _LOG_TEXT );
+ IntToStr( gyroZ, logText );
+ mikrobus_logWrite( logText, _LOG_TEXT );
+ mikrobus_logWrite( "  *", _LOG_TEXT );
+ mikrobus_logWrite( "*****************", _LOG_LINE );
+
+ mikrobus_logWrite("---------------------------------------------------------", _LOG_LINE);
+
+ Delay_1sec();
 }
